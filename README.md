@@ -1,36 +1,85 @@
+# Redstar unrealchat
+
+## Badges
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-%5E13.0.0-lightgrey" alt="Next.js">
+  <img src="https://img.shields.io/badge/Node.js-22.6.0-brightgreen" alt="Node.js">
+  <img src="https://img.shields.io/badge/npm-10.8.2-blue" alt="npm">
+  <img src="https://img.shields.io/badge/Docker-3.1.0-blue" alt="Docker">
+  <img src="https://img.shields.io/badge/@types/node-%5E22.5.1-yellow" alt="@types/node">
+  <img src="https://img.shields.io/badge/Prisma-%5E5.19.0-brightgreen" alt="Prisma">
+  <img src="https://img.shields.io/badge/tsx-%5E4.19.0-yellowgreen" alt="tsx">
+  <img src="https://img.shields.io/badge/TypeScript-%5E5.5.4-blueviolet" alt="TypeScript">
+  <img src="https://img.shields.io/badge/@fastify/cors-%5E9.0.1-orange" alt="@fastify/cors">
+  <img src="https://img.shields.io/badge/@prisma/client-%5E5.19.0-brightgreen" alt="@prisma/client">
+  <img src="https://img.shields.io/badge/@types/bcrypt-%5E5.0.2-blue" alt="@types/bcrypt">
+  <img src="https://img.shields.io/badge/bcrypt-%5E5.1.1-yellowgreen" alt="bcrypt">
+  <img src="https://img.shields.io/badge/dotenv-%5E16.4.5-yellow" alt="dotenv">
+  <img src="https://img.shields.io/badge/fastify-%5E4.28.1-blue" alt="fastify">
+  <img src="https://img.shields.io/badge/fastify--zod-%5E1.4.0-blueviolet" alt="fastify-zod">
+  <img src="https://img.shields.io/badge/socket.io-%5E4.7.5-brightgreen" alt="socket.io">
+  <img src="https://img.shields.io/badge/zod-%5E3.23.8-blueviolet" alt="zod">
+</p>
+
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Use case
 
-First, run the development server:
+![alt text](./public/image.png)
+
+## routes
+
+- **create user [POST]** : ```v1/users/register```
+- **login user [POST]** : ```v1/users/login```
+
+<br/>
+
+## Getting Started fullstack
+
+First, run the development server for nextjs:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  # installing modules
+  npm i
+
+  npm run dev
+  # or
+  yarn dev
+  # or
+  pnpm dev
+  # or
+  bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<br/>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Then, run the development server:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+  # installing modules
+  cd server
+  npm i
 
-## Learn More
+  npm run dev
+  # or
+  yarn dev
+  # or
+  pnpm dev
+  # or
+  bun dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:5232](http://localhost:5232) with your browser to see the result.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### TODO
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- [] getAll users
+- [] logout user route
+- [] delete user route
+- [] create chatroom instance
+- [] user login page (frontend)
+- [] user homepage (frontend)

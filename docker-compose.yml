@@ -1,0 +1,12 @@
+version: '3.1'
+
+services:
+  db:
+    container_name: redstar
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}

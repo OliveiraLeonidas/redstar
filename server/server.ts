@@ -1,34 +1,76 @@
-import express from "express";
-import http from "node:http";
-import { Server as SocketIOServer } from "socket.io";
-const app = express();
-const server = http.createServer(app);
+import fastify, { type FastifyReply, type FastifyRequest } from 'fastify';
+import cors from '@fastify/cors';
+import cookie from '@fastify/cookie';
+import jwt, { type FastifyJWT } from '@fastify/jwt';
+import { Server as SocketIOServer } from 'socket.io';
+import { userRoutes } from './modules/users/users.route';
+import { userSchemas } from './modules/users/users.schema';
+import * as dotenv from 'dotenv';
 
-const io = new SocketIOServer(server, {
-  cors: { origin: 'http://localhost:3000', methods: ["GET", "POST"] }
-});
+dotenv.config();
+const app = fastify({ logger: true });
 
-io.on('connection', (socket) => {
-  console.log('A user connected', socket.id);
-  socket.on('set_username', username => {
-    socket.data.username = username
-    console.log(socket.data.username)
+// CORS CONFIG
+app.register(cors, {
+  origin: 'http://localhost:3000',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Authorization', 'Content-Type'],
+    credentials: true,
   })
 
-  socket.on('message', text => {
-    io.emit('receive_message', {
-      text, 
-      authorId: socket.id,
-      author: socket.data.username
-    })
-  })
+// COOKIES CONFIG
+app.register(cookie, {
+  secret: process.env.COOKIE_SECRET,
+  hook: 'preHandler',
+  parseOptions: {}
+})
 
-  socket.on('disconnect', reason => {
-    console.log('User disconnected', socket.id);
-  });
+// JWT CONFIG
+app.register(jwt, {
+  secret: process.env.JWT_SECRET || '',
+  cookie: {
+    cookieName: 'access_token',
+    signed: true,
+  },
+  sign: {
+    expiresIn: '3d'
+  }
+})
+
+app.addHook('preHandler', (req, res, next) => {
+  req.jwt = app.jwt;
+  next();
 });
 
-const PORT = process.env.PORT || 5232;
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.decorate(
+  'authenticate', async (req: FastifyRequest, reply: FastifyReply) => {
+      const token = req.cookies.access_token
+      if (!token) {
+          return reply.status(401).send({message: 'Authentication required'})
+      }
+
+      const decoded = req.jwt.verify<FastifyJWT['User']>(token)
+      req.user = decoded
+  }
+
+)
+
+app.register(userRoutes, {prefix: 'v1/users'})
+
+for (let schema of [...userSchemas]) {
+  app.addSchema(schema)
+}
+
+const port: number = 5232 || Number(process.env.PORT)
+
+app.listen({
+  port: port,
+  host: '0.0.0.0'
+}).then(() => {
+  console.log(`running server on http://localhost:${port}`)
+}).catch(err => {
+  console.error(err)
+  process.exit(1);
+})
+
+

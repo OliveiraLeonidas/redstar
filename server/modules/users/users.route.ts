@@ -1,14 +1,16 @@
 import { FastifyInstance } from 'fastify';
 import { $ref } from './users.schema';
-import { createUser, login } from "./users.controller";
+import { createUser, findMany, findUser, login } from "./users.controller";
 
 export async function userRoutes(app: FastifyInstance) {
-  app.get('/',
+  app.get('/:id',
     {
-      //preHandler: [app.authenticate]
+      preHandler: [app.authenticate]
+
     },
-    () => {}
+    findUser
   )
+  app.get('/all', findMany)
   app.post('/register', {
       schema: {
         body: $ref('createUserSchema'),

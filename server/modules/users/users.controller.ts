@@ -80,3 +80,38 @@ export async function login(
   return { accessToken: token }
 
 }
+
+export async function findUser(
+  req: FastifyRequest<{ Params: {id: string}}>,
+  reply: FastifyReply
+) {
+
+  const {id} = req.params
+  const user = await prisma.users.findUnique({
+    where: {id},
+    select: {
+      name: true,
+      username: true,
+      email: true,
+      created_at: true,
+      updated_at: true,
+      password: true
+    }
+  })
+  return (user)
+}
+
+export async function findMany() {
+  const users = await prisma.users.findMany({
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      email: true,
+      created_at: true,
+      updated_at: true
+    }
+  })
+
+  return (users)
+} 
